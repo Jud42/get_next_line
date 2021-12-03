@@ -6,7 +6,7 @@
 /*   By: rmamison <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/25 09:50:15 by rmamison          #+#    #+#             */
-/*   Updated: 2021/12/02 20:09:06 by rmamison         ###   ########.fr       */
+/*   Updated: 2021/12/03 21:45:24 by rmamison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,21 +55,8 @@ char  *pre_get_next_line(int fd, char *str)
   return (str);
 }*/
 
-char  *get_next_line(int fd)
-{
-  static char *str;
-  char        *line;
+char  *get_next_line(int fd);
 
-  if (fd < 0 || BUFFER_SIZE <= 0)
-    return (NULL);
-  str = pre_get_next_line(fd, str);
-  if(!str)
-    return (NULL);
-  line = ft_lineLeft(str);
-  str = ft_lineRight(str);
-  return (line);
-}
-/*
 int main()
 {
   int ret = 60;
@@ -96,4 +83,20 @@ int main()
     return (1);
   }
   return 0;
-}*/
+}
+
+char  *get_next_line(int fd)
+{
+  static char *str;
+  char        *line;
+
+  if (fd < 0 || BUFFER_SIZE <= 0)
+    return (0);
+  str = pre_get_next_line(fd, str);
+  if(!str)
+    return (NULL);
+  line = ft_lineLeft(str);
+  str = ft_lineRight(str);
+  return (line);
+}
+

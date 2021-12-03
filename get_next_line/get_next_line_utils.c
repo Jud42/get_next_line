@@ -6,7 +6,7 @@
 /*   By: rmamison <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/25 10:54:41 by rmamison          #+#    #+#             */
-/*   Updated: 2021/12/02 20:09:12 by rmamison         ###   ########.fr       */
+/*   Updated: 2021/12/03 21:45:21 by rmamison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,25 +20,28 @@ int ft_strlen(const char *s)
   return (i);
 }
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin(char *s1, char *s2)
 {
 	char	*p;
-	size_t	len_s1;
-	size_t	len_all;
+  int i;
+  int j;
 
-	if (!s1 && !s2)
+  if (!s1)
+    s1 = calloc(sizeof(char), 1);
+	if (!s1 || !s2)
 		return (NULL);
-	if (!s1)
-		return ((char *)s2);
-	if (!s2)
-		return ((char *)s1);
-	len_s1 = ft_strlen(s1);
-	len_all = len_s1 + ft_strlen(s2);
-	p = malloc (sizeof(char) * len_all + 1);
+	p = malloc (sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
 	if (!p)
 		return (NULL);
-	strlcpy(p, s1, len_s1);
-	strlcat(p, s2, len_all + 1);
+  i = -1;
+  j = 0;
+  if (s1)
+	  while (s1[++i])
+      p[i] = s1[i];
+  while (s2[j])
+    p[i++] = s2[j++];
+  p[ft_strlen(s1) + ft_strlen(s2)] = '\0';
+  free(s1); 
 	return (p);
 }
 
@@ -61,12 +64,11 @@ char  *ft_lineLeft(char *str)
   char  *p;
 
   i = 0;
+  if (!str[i])
+    return (NULL);
   while (str[i] && str[i] != '\n')
     i++;
-  if (str[i] == '\n')
-    p = malloc(sizeof(char) * i + 2);
-  else
-    p = malloc(sizeof(char) * i + 1);
+  p = malloc(sizeof(char) * i + 2);
   if (!p)
     return (NULL);
   i = 0;
@@ -88,13 +90,19 @@ char  *ft_lineRight(char *str)
   i = 0;
   while (str[i] && str[i] != '\n')
     i++;
-  p = malloc(sizeof(char) * (strlen(str) - i + 1));
+  if (!str[i])
+  {
+    free(str);
+    return (NULL);
+  }
+  p = malloc(sizeof(char) * (ft_strlen(str) - i + 1));
   if (!p)
     return (NULL);
   j = 0;
   while (str[i])
     p[j++] = str[++i];
   p[j] = '\0';
+  free(str);
   return (p);
 }
 
@@ -118,6 +126,6 @@ char  *pre_get_next_line(int fd, char *str)
     buf[ret] = '\0';
     str = ft_strjoin(str ,buf); //concatenation
   }
- // free(buf);
+  free(buf);
   return (str);
 }

@@ -6,14 +6,15 @@
 /*   By: rmamison <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/25 10:51:33 by rmamison          #+#    #+#             */
-/*   Updated: 2021/12/02 20:42:45 by rmamison         ###   ########.fr       */
+/*   Updated: 2021/12/03 21:43:05 by rmamison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
-# define BUFFER_SIZE 1000
-
+# ifndef BUFFER_SIZE
+  # define BUFFER_SIZE 1000
+# endif
 # include <stddef.h>
 # include <stdio.h>
 # include <string.h>
@@ -21,7 +22,7 @@
 # include <fcntl.h>
 # include <unistd.h>
 
-char  *ft_strjoin(char const *s1, char const *s2);
+char  *ft_strjoin(char *s1, char *s2);
 char  *ft_strchr(const char *s, int c);
 char  *ft_lineLeft(char *str);
 char  *ft_lineRight(char *str);
